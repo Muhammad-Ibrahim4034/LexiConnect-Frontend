@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { Search, MapPin, Phone, Mail, Briefcase, Filter, Star, Loader2, AlertCircle } from 'lucide-react';
 import { DashboardLayout } from '../components/DashboardLayout';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 interface Lawyer {
   id: string;
   name: string;
@@ -15,7 +17,7 @@ interface Lawyer {
   cases: number;
 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 
 export function LawyerDirectoryPage() {
   const [searchQuery, setSearchQuery]               = useState('');

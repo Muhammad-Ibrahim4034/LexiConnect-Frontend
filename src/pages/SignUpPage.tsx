@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Scale, User, Mail, Phone, Lock, AlertCircle, CheckCircle } from 'lucide-react';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 const inputStyle = {
   paddingLeft: '48px',
@@ -78,7 +79,7 @@ export function SignUpPage() {
     }
 
     try {
-      const res = await fetch('${API_BASE}/signup', {
+      const res = await fetch(`${API_BASE}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
