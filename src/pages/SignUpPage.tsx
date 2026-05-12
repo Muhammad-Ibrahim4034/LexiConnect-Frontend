@@ -64,7 +64,21 @@ export function SignUpPage() {
       return;
     }
 
-    setStep('otp');
+    // ✅ NEW - Send OTP to email
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email })
+      });
+      if (!res.ok) throw new Error('Failed to send OTP');
+      setStep('otp');
+    } catch (err) {
+      setError('Failed to send OTP. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleVerifyOTP = async (e: React.FormEvent) => {
@@ -79,7 +93,22 @@ export function SignUpPage() {
     }
 
     try {
-      const res = await fetch(`${API_BASE}/signup`, {
+      // ✅ Step 1 - Verify OTP
+      const verifyRes = await fetch(`${API_BASE}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, otp })
+      });
+
+      if (!verifyRes.ok) {
+        const data = await verifyRes.json();
+        setError(data.detail || 'Invalid OTP');
+        setIsLoading(false);
+        return;
+      }
+
+      // ✅ Step 2 - Create account
+      const signupRes = await fetch(`${API_BASE}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -90,14 +119,13 @@ export function SignUpPage() {
         })
       });
 
-      if (!res.ok) {
-        const data = await res.json();
+      if (!signupRes.ok) {
+        const data = await signupRes.json();
         setError(data.detail || 'Failed to create account');
       } else {
-        navigate('/dashboard');
+        navigate('/login'); // ✅ Go to login after signup
       }
     } catch (err) {
-      console.error(err);
       setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -350,6 +378,19 @@ export function SignUpPage() {
               <div className="text-center">
                 <button
                   type="button"
+                  onClick={async () => {
+                    setError('');
+                    try {
+                      await fetch(`${API_BASE}/send-otp`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: formData.email })
+                      });
+                      setOtp('');
+                    } catch {
+                      setError('Failed to resend OTP');
+                    }
+                  }}
                   className="text-sm hover:underline"
                   style={{ color: '#D4AF37', background: 'none', border: 'none', cursor: 'pointer' }}
                 >
@@ -361,7 +402,7 @@ export function SignUpPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
                   padding: '14px',
                   background: 'linear-gradient(135deg, #D4AF37 0%, #F0D060 60%, #C49F2F 100%)',
@@ -375,7 +416,7 @@ export function SignUpPage() {
                   fontFamily: 'inherit',
                 }}
               >
-                {isLoading ? 'Verifying...' : 'Verify & Create Account'}
+                {isLoading ? 'Sending OTP...' : 'Continue to Verification'}
               </button>
 
               {/* Back Button */}
