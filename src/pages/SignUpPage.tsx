@@ -78,7 +78,7 @@ export function SignUpPage() {
     }
 
     try {
-      const res = await fetch('http://localhost:8000/signup', {
+      const res = await fetch('${API_BASE}/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

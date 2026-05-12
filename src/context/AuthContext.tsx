@@ -15,6 +15,8 @@ interface AuthContextType {
   logout: () => void;
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -28,7 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // --------------------------
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const res = await fetch("http://localhost:8000/login", {
+      const res = await fetch('${API_BASE}/login', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -66,7 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // --------------------------
   const signup = async (name: string, email: string, phone: string, password: string): Promise<boolean> => {
     try {
-      const res = await fetch("http://localhost:8000/signup", {
+      const res = await fetch('${API_BASE}/signup', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, phone, password }),
