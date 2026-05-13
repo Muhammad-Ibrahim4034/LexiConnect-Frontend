@@ -256,7 +256,29 @@ export function DashboardPage() {
                       e.currentTarget.style.border = '1px solid rgba(212,175,55,0.12)';
                     }}
                   >
-                    {/* same inner content, no changes needed */}
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={{
+                        background: 'rgba(212,175,55,0.15)',
+                        border: '1px solid rgba(212,175,55,0.3)',
+                      }}
+                    >
+                      <MessageSquare className="w-5 h-5" style={{ color: '#D4AF37' }} />
+                    </div>
+                    <div className="flex-1">
+                      <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '14px' }}>
+                        {activity.title}
+                      </p>
+                      <p
+                        style={{
+                          color: 'rgba(255,255,255,0.35)',
+                          fontSize: '12px',
+                          marginTop: '2px',
+                        }}
+                      >
+                        {activity.time}
+                      </p>
+                    </div>
                   </button>
                 ))}
               </div>
