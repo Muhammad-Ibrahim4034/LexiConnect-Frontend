@@ -8,8 +8,8 @@ const useCases = [
   },
   {
     icon: Home,
-    title: 'Tenant Disputes',
-    description: 'Navigate rental agreements, eviction notices, and landlord-tenant conflicts with confidence.'
+    title: 'Student Laws',
+    description: 'We cater to student laws to ensure educational institutions understand and uphold students’ rights, safety, equality, and fair treatment.'
   },
   {
     icon: Heart,
@@ -28,8 +28,8 @@ const useCases = [
   },
   {
     icon: Plane,
-    title: 'Visa & Immigration',
-    description: 'Get clarity on visa applications, citizenship processes, and immigration rights.'
+    title: 'Drug Law',
+    description: 'Drug laws are legal frameworks that regulate the manufacture, import, export, storage, distribution, and sale of therapeutic goods to ensure quality, safety, and efficacy.'
   }
 ];
 

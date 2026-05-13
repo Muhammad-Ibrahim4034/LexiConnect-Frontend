@@ -317,7 +317,7 @@ export function DashboardPage() {
             </p>
             <div className="flex flex-wrap gap-4">
               {[
-                { label: 'Domestic Violence', number: '1099' },
+                { label: 'Ambulance', number: '115' },
                 { label: 'Police Emergency', number: '15' },
                 { label: 'Legal Aid', number: '0800-12345' },
               ].map((item, i) => (
