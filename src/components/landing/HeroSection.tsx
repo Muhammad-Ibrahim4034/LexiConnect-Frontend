@@ -122,7 +122,7 @@ export function HeroSection() {
             backgroundClip: 'text',
           }}
         >
-          Your AI-Powered Legal Assistant
+          Your AI Powered Legal Assistant
         </h1>
 
         <p
@@ -130,7 +130,7 @@ export function HeroSection() {
           style={{ color: 'rgba(255,255,255,0.55)' }}
         >
           Navigate complex legal matters with confidence. Get instant answers, expert guidance,
-          and connect with qualified lawyers — all in one platform.
+          and connect with qualified lawyers all in one platform.
         </p>
 
         <div className="flex gap-6 justify-center items-center mb-8">
@@ -155,34 +155,8 @@ export function HeroSection() {
               Ask a Legal Question
             </button>
           </Link>
-
-          <Link to="/signup">
-            <button
-              className="px-12 py-5 text-xl rounded-full transition-all"
-              style={{
-                background: 'transparent',
-                border: '1px solid rgba(212,175,55,0.5)',
-                color: 'rgba(212,175,55,0.9)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(212,175,55,0.1)';
-                e.currentTarget.style.border = '1px solid rgba(212,175,55,0.8)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.border = '1px solid rgba(212,175,55,0.5)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >
-              Book a Lawyer Consultation
-            </button>
-          </Link>
         </div>
 
-        <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.35)' }}>
-          🔒 Your privacy is our priority. All conversations are confidential and encrypted.
-        </p>
       </div>
 
 

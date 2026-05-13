@@ -8,13 +8,13 @@ const features = [
   },
   {
     icon: Users,
-    title: 'Connect with Expert Lawyers',
-    description: 'Seamlessly book consultations with verified legal professionals specialized in your specific case. Get matched with the right expert for your needs.'
+    title: 'Find Expert Lawyers',
+    description: 'Find verified legal professionals specialized in your specific case.'
   },
   {
     icon: Shield,
-    title: 'Secure & Confidential',
-    description: 'Your privacy matters. All communications are end-to-end encrypted and protected under attorney-client privilege standards. Your data stays yours.'
+    title: '24/7 Legal Support',
+    description: 'Get legal assistance anytime you need it. Our platform is available around the clock to help you access guidance, connect with experts, and stay informed at every step.'
   }
 ];
 
