@@ -64,7 +64,7 @@ export function CTASection() {
             className="text-2xl mb-12 max-w-3xl mx-auto leading-relaxed"
             style={{ color: 'rgba(255,255,255,0.5)' }}
           >
-            Join thousands who've found clarity and confidence with LexiConnect. Start your journey to legal empowerment today — completely free.
+            Start your journey to legal empowerment today, completely free.
           </p>
 
           {/* CTA Buttons */}
