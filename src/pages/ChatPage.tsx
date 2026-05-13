@@ -38,6 +38,82 @@ export function ChatPage() {
   return (
     <DashboardLayout>
       {/* Page background gradient */}
+      <style>{`
+  .llm-response p { margin: 0 0 10px 0; color: rgba(255,255,255,0.88); }
+  .llm-response p:last-child { margin-bottom: 0; }
+  .llm-response strong, .llm-response b { color: #F0D060; font-weight: 700; }
+  .llm-response em, .llm-response i { color: rgba(255,255,255,0.75); font-style: italic; }
+  .llm-response ul { list-style: none; padding: 0; margin: 8px 0; }
+  .llm-response ul li { padding-left: 16px; position: relative; margin-bottom: 6px; color: rgba(255,255,255,0.85); }
+  .llm-response ul li::before { content: '•'; position: absolute; left: 0; color: #D4AF37; font-weight: bold; }
+  .llm-response ol { padding-left: 20px; margin: 8px 0; }
+  .llm-response ol li { margin-bottom: 6px; color: rgba(255,255,255,0.85); padding-left: 4px; }
+  .llm-response ol li::marker { color: #D4AF37; font-weight: 700; }
+  .llm-response h1, .llm-response h2, .llm-response h3, .llm-response h4 {
+    color: #F0D060;
+    font-weight: 700;
+    margin: 14px 0 6px 0;
+    line-height: 1.3;
+  }
+  .llm-response h1 { font-size: 18px; }
+  .llm-response h2 { font-size: 16px; }
+  .llm-response h3 { font-size: 15px; }
+  .llm-response h4 { font-size: 14px; }
+  .llm-response code {
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12.5px;
+    color: #F0D060;
+    font-family: monospace;
+  }
+  .llm-response pre {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    margin: 10px 0;
+  }
+  .llm-response pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+  }
+  .llm-response blockquote {
+    border-left: 3px solid #D4AF37;
+    margin: 10px 0;
+    padding: 6px 12px;
+    background: rgba(212,175,55,0.07);
+    border-radius: 0 6px 6px 0;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+  }
+  .llm-response hr {
+    border: none;
+    border-top: 1px solid rgba(212,175,55,0.2);
+    margin: 12px 0;
+  }
+  .llm-response a { color: #D4AF37; text-decoration: underline; }
+  .llm-response table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+  .llm-response th {
+    background: rgba(212,175,55,0.15);
+    color: #F0D060;
+    font-weight: 700;
+    padding: 8px 10px;
+    border: 1px solid rgba(212,175,55,0.25);
+    text-align: left;
+  }
+  .llm-response td {
+    padding: 7px 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.8);
+  }
+  .llm-response tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+`}</style>
       <div
         className="min-h-screen"
         style={{
@@ -121,13 +197,13 @@ export function ChatPage() {
                       style={
                         message.type === 'user'
                           ? {
-                              background: 'linear-gradient(135deg, #D4AF37, #F0D060)',
-                              boxShadow: '0 2px 8px rgba(212,175,55,0.4)',
-                            }
+                            background: 'linear-gradient(135deg, #D4AF37, #F0D060)',
+                            boxShadow: '0 2px 8px rgba(212,175,55,0.4)',
+                          }
                           : {
-                              background: 'linear-gradient(135deg, #2e1a0e, #4a2810)',
-                              border: '1px solid rgba(212,175,55,0.4)',
-                            }
+                            background: 'linear-gradient(135deg, #2e1a0e, #4a2810)',
+                            border: '1px solid rgba(212,175,55,0.4)',
+                          }
                       }
                     >
                       {message.type === 'user' ? (
@@ -172,26 +248,16 @@ export function ChatPage() {
                         </div>
                       ) : (
                         <div
-                          className="inline-block p-4 rounded-2xl prose prose-sm max-w-none"
-                          style={
-                            message.type === 'user'
-                              ? {
-                                  background: 'linear-gradient(135deg, #D4AF37 0%, #C49F2F 100%)',
-                                  color: '#2e1a0e',
-                                  borderTopRightRadius: '4px',
-                                  boxShadow: '0 2px 12px rgba(212,175,55,0.3)',
-                                  fontSize: '14px',
-                                  lineHeight: '1.6',
-                                }
-                              : {
-                                  background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
-                                  border: '1px solid rgba(212,175,55,0.2)',
-                                  color: 'rgba(255,255,255,0.88)',
-                                  borderTopLeftRadius: '4px',
-                                  fontSize: '14px',
-                                  lineHeight: '1.6',
-                                }
-                          }
+                          className="inline-block p-4 rounded-2xl llm-response"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                            border: '1px solid rgba(212,175,55,0.2)',
+                            color: 'rgba(255,255,255,0.88)',
+                            borderTopLeftRadius: '4px',
+                            fontSize: '14px',
+                            lineHeight: '1.6',
+                            maxWidth: '100%',
+                          }}
                         >
                           <ReactMarkdown>{message.content}</ReactMarkdown>
                         </div>
