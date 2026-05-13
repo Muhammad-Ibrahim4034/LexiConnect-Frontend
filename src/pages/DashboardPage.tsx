@@ -1,10 +1,46 @@
 import { Link } from 'react-router-dom';
-import { MessageSquare, BookOpen, Users, History, Scale, User, LogOut } from 'lucide-react';
+import { MessageSquare, BookOpen, Users, History } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { DashboardLayout } from '../components/DashboardLayout';
+import { useEffect, useState } from 'react';
+
+// ── Change this to your backend base URL if you use an env var ──
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export function DashboardPage() {
   const { user } = useAuth();
+
+  const [recentActivity, setRecentActivity] = useState([]);
+  const [loadingActivity, setLoadingActivity] = useState(true);
+  const [activityError, setActivityError] = useState(null);
+
+  useEffect(() => {
+    async function fetchActivity() {
+      try {
+        setLoadingActivity(true);
+        setActivityError(null);
+
+        const token = localStorage.getItem("authToken");
+        const res = await fetch(`${API_BASE}/activity/recent?limit=5`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+        const data = await res.json();
+        setRecentActivity(data);
+      } catch (err) {
+        console.error('Failed to load recent activity:', err);
+        setActivityError('Could not load recent activity.');
+      } finally {
+        setLoadingActivity(false);
+      }
+    }
+
+    fetchActivity();
+  }, []);
 
   const quickActions = [
     {
@@ -12,35 +48,29 @@ export function DashboardPage() {
       title: 'AI Legal Chat',
       description: 'Get instant answers to your legal questions',
       link: '/chat',
-      color: 'bg-blue-500'
+      color: 'bg-blue-500',
     },
     {
       icon: BookOpen,
       title: 'Legal Information',
       description: 'Browse laws and regulations',
       link: '/legal-info',
-      color: 'bg-green-500'
+      color: 'bg-green-500',
     },
     {
       icon: Users,
       title: 'Lawyer Directory',
       description: 'Find verified legal professionals',
       link: '/lawyers',
-      color: 'bg-purple-500'
+      color: 'bg-purple-500',
     },
     {
       icon: History,
       title: 'Chat History',
       description: 'View your previous conversations',
       link: '/history',
-      color: 'bg-orange-500'
-    }
-  ];
-
-  const recentActivity = [
-    { type: 'chat', title: 'Asked about traffic violations', time: '2 hours ago' },
-    { type: 'info', title: 'Viewed Domestic Violence Laws', time: '1 day ago' },
-    { type: 'lawyer', title: 'Contacted Lawyer - Ahmed Khan', time: '3 days ago' }
+      color: 'bg-orange-500',
+    },
   ];
 
   return (
@@ -48,7 +78,8 @@ export function DashboardPage() {
       <div
         className="min-h-screen"
         style={{
-          background: 'linear-gradient(135deg, #1a0f08 0%, #2e1a0e 35%, #3B2319 60%, #5a3420 100%)',
+          background:
+            'linear-gradient(135deg, #1a0f08 0%, #2e1a0e 35%, #3B2319 60%, #5a3420 100%)',
           padding: '32px 24px',
         }}
       >
@@ -83,23 +114,27 @@ export function DashboardPage() {
                   to={action.link}
                   className="group transition-all hover:scale-[1.02] active:scale-95"
                   style={{
-                    background: 'linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)',
+                    background:
+                      'linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)',
                     backdropFilter: 'blur(20px)',
                     WebkitBackdropFilter: 'blur(20px)',
                     border: '1px solid rgba(212,175,55,0.25)',
                     borderRadius: '16px',
                     padding: '24px',
-                    boxShadow: '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)',
+                    boxShadow:
+                      '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)',
                     textDecoration: 'none',
                     display: 'block',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.border = '1px solid rgba(212,175,55,0.55)';
-                    e.currentTarget.style.boxShadow = '0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.1)';
+                    e.currentTarget.style.boxShadow =
+                      '0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.1)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.border = '1px solid rgba(212,175,55,0.25)';
-                    e.currentTarget.style.boxShadow = '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)';
+                    e.currentTarget.style.boxShadow =
+                      '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)';
                   }}
                 >
                   <div
@@ -121,36 +156,89 @@ export function DashboardPage() {
             })}
           </div>
 
-          {/* Two Column Layout */}
-          <div className="grid lg:grid-cols-3 gap-6">
-
-            {/* Recent Activity */}
-            <div
-              className="lg:col-span-2"
-              style={{
-                background: 'linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid rgba(212,175,55,0.25)',
-                borderRadius: '16px',
-                padding: '32px',
-                boxShadow: '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)',
-              }}
+          {/* Recent Activity — full width */}
+          <div
+            style={{
+              background:
+                'linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(212,175,55,0.25)',
+              borderRadius: '16px',
+              padding: '32px',
+              boxShadow:
+                '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)',
+            }}
+          >
+            <h2
+              className="text-2xl font-serif mb-6"
+              style={{ color: 'rgba(255,255,255,0.9)' }}
             >
-              <h2
-                className="text-2xl font-serif mb-6"
-                style={{ color: 'rgba(255,255,255,0.9)' }}
-              >
-                Recent Activity
-              </h2>
+              Recent Activity
+            </h2>
+
+            {/* Loading skeleton */}
+            {loadingActivity && (
               <div className="space-y-4">
-                {recentActivity.map((activity, index) => (
+                {[1, 2, 3].map((i) => (
                   <div
-                    key={index}
+                    key={i}
+                    className="flex items-start gap-4 p-4 rounded-xl animate-pulse"
+                    style={{
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(212,175,55,0.12)',
+                    }}
+                  >
+                    <div
+                      className="w-10 h-10 rounded-lg flex-shrink-0"
+                      style={{ background: 'rgba(212,175,55,0.1)' }}
+                    />
+                    <div className="flex-1 space-y-2">
+                      <div
+                        className="h-3 rounded"
+                        style={{ background: 'rgba(255,255,255,0.08)', width: '60%' }}
+                      />
+                      <div
+                        className="h-2 rounded"
+                        style={{ background: 'rgba(255,255,255,0.05)', width: '30%' }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Error state */}
+            {!loadingActivity && activityError && (
+              <p style={{ color: 'rgba(252,165,165,0.7)', fontSize: '14px' }}>
+                {activityError}
+              </p>
+            )}
+
+            {/* Empty state */}
+            {!loadingActivity && !activityError && recentActivity.length === 0 && (
+              <div
+                className="flex flex-col items-center justify-center py-10"
+                style={{ color: 'rgba(255,255,255,0.3)' }}
+              >
+                <MessageSquare className="w-10 h-10 mb-3" style={{ opacity: 0.3 }} />
+                <p style={{ fontSize: '14px' }}>No conversations yet. Start a chat!</p>
+              </div>
+            )}
+
+            {/* Activity list */}
+            {!loadingActivity && !activityError && recentActivity.length > 0 && (
+              <div className="space-y-4">
+                {recentActivity.map((activity) => (
+                  <Link
+                    key={activity.id}
+                    to={`/chat/${activity.conversation_id}`}
                     className="flex items-start gap-4 p-4 rounded-xl transition-all"
                     style={{
                       background: 'rgba(255,255,255,0.04)',
                       border: '1px solid rgba(212,175,55,0.12)',
+                      textDecoration: 'none',
+                      display: 'flex',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'rgba(212,175,55,0.08)';
@@ -168,110 +256,41 @@ export function DashboardPage() {
                         border: '1px solid rgba(212,175,55,0.3)',
                       }}
                     >
-                      {activity.type === 'chat' && <MessageSquare className="w-5 h-5" style={{ color: '#D4AF37' }} />}
-                      {activity.type === 'info' && <BookOpen className="w-5 h-5" style={{ color: '#D4AF37' }} />}
-                      {activity.type === 'lawyer' && <Users className="w-5 h-5" style={{ color: '#D4AF37' }} />}
+                      <MessageSquare className="w-5 h-5" style={{ color: '#D4AF37' }} />
                     </div>
                     <div className="flex-1">
-                      <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '14px' }}>{activity.title}</p>
-                      <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '12px', marginTop: '2px' }}>{activity.time}</p>
+                      <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '14px' }}>
+                        {activity.title}
+                      </p>
+                      <p
+                        style={{
+                          color: 'rgba(255,255,255,0.35)',
+                          fontSize: '12px',
+                          marginTop: '2px',
+                        }}
+                      >
+                        {activity.time}
+                      </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div
-              style={{
-                background: 'linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.05) 100%)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid rgba(212,175,55,0.35)',
-                borderRadius: '16px',
-                padding: '32px',
-                boxShadow: '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)',
-              }}
-            >
-              <h2
-                className="text-2xl font-serif mb-6"
-                style={{ color: 'rgba(255,255,255,0.9)' }}
-              >
-                Your Stats
-              </h2>
-              <div className="space-y-6">
-                <div>
-                  <p style={{ color: 'rgba(212,175,55,0.75)', fontSize: '13px', marginBottom: '4px' }}>Total Chats</p>
-                  <p
-                    style={{
-                      fontSize: '40px',
-                      fontWeight: '300',
-                      background: 'linear-gradient(135deg, #D4AF37 0%, #F0D060 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}
-                  >
-                    24
-                  </p>
-                </div>
-                <div
-                  style={{
-                    height: '1px',
-                    background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent)',
-                  }}
-                />
-                <div>
-                  <p style={{ color: 'rgba(212,175,55,0.75)', fontSize: '13px', marginBottom: '4px' }}>Laws Viewed</p>
-                  <p
-                    style={{
-                      fontSize: '40px',
-                      fontWeight: '300',
-                      background: 'linear-gradient(135deg, #D4AF37 0%, #F0D060 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}
-                  >
-                    12
-                  </p>
-                </div>
-                <div
-                  style={{
-                    height: '1px',
-                    background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent)',
-                  }}
-                />
-                <div>
-                  <p style={{ color: 'rgba(212,175,55,0.75)', fontSize: '13px', marginBottom: '4px' }}>Lawyers Contacted</p>
-                  <p
-                    style={{
-                      fontSize: '40px',
-                      fontWeight: '300',
-                      background: 'linear-gradient(135deg, #D4AF37 0%, #F0D060 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}
-                  >
-                    3
-                  </p>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Emergency Help Banner */}
           <div
             className="mt-10"
             style={{
-              background: 'linear-gradient(160deg, rgba(220,38,38,0.15) 0%, rgba(220,38,38,0.07) 100%)',
+              background:
+                'linear-gradient(160deg, rgba(220,38,38,0.15) 0%, rgba(220,38,38,0.07) 100%)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
               border: '1px solid rgba(220,38,38,0.35)',
               borderRadius: '16px',
               padding: '24px',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
+              boxShadow:
+                '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
             }}
           >
             <h3
@@ -280,7 +299,13 @@ export function DashboardPage() {
             >
               Need Emergency Legal Help?
             </h3>
-            <p style={{ color: 'rgba(252,165,165,0.7)', marginBottom: '16px', fontSize: '14px' }}>
+            <p
+              style={{
+                color: 'rgba(252,165,165,0.7)',
+                marginBottom: '16px',
+                fontSize: '14px',
+              }}
+            >
               If you're facing an emergency situation, contact these helplines immediately:
             </p>
             <div className="flex flex-wrap gap-4">
@@ -298,8 +323,24 @@ export function DashboardPage() {
                     padding: '8px 16px',
                   }}
                 >
-                  <p style={{ fontSize: '11px', color: 'rgba(252,165,165,0.6)', marginBottom: '2px' }}>{item.label}</p>
-                  <p style={{ color: 'rgba(252,165,165,0.95)', fontWeight: '500', fontSize: '15px' }}>{item.number}</p>
+                  <p
+                    style={{
+                      fontSize: '11px',
+                      color: 'rgba(252,165,165,0.6)',
+                      marginBottom: '2px',
+                    }}
+                  >
+                    {item.label}
+                  </p>
+                  <p
+                    style={{
+                      color: 'rgba(252,165,165,0.95)',
+                      fontWeight: '500',
+                      fontSize: '15px',
+                    }}
+                  >
+                    {item.number}
+                  </p>
                 </div>
               ))}
             </div>
