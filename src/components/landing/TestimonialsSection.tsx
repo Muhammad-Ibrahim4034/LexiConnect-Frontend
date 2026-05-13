@@ -2,19 +2,19 @@ import { Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "LexiConnect helped me understand my tenant rights when I was facing an unfair eviction. The AI explained everything clearly, and I was able to connect with a lawyer within hours. Absolutely invaluable.",
-    author: "Sarah Mitchell",
-    role: "Small Business Owner"
+    quote: "LexiConnect helped me understand my student rights in easy words. I felt less confused and knew what to do next.",
+    author: "Ali Ahmed",
+    role: "Bachelors Student of AI"
   },
   {
-    quote: "As someone with limited legal knowledge, I was overwhelmed by a workplace harassment situation. LexiConnect gave me the confidence and guidance I needed to take the right steps. The platform is incredibly user-friendly.",
-    author: "James Rodriguez",
-    role: "Marketing Professional"
-  },
-  {
-    quote: "The immigration process felt impossible to navigate alone. LexiConnect's AI broke down each step, and connecting with an immigration lawyer was seamless. I can't recommend this enough.",
-    author: "Priya Sharma",
+    quote: "LexiConnect made legal help simple for me. The AI explained everything clearly, and I understood my next steps.",
+    author: "Syed Muhammad Ozair",
     role: "Software Engineer"
+  },
+  {
+    quote: "LexiConnect helps people understand the law in a simple way. It saves time and makes legal support easy for everyone.",
+    author: "Rana Al Shoaib",
+    role: "Practicing Lawyer"
   }
 ];
 
@@ -39,7 +39,7 @@ export function TestimonialsSection() {
               backgroundClip: 'text',
             }}
           >
-            Trusted by Thousands
+            Trusted by 100s
           </h2>
           <p style={{ fontSize: '1.5rem', color: 'rgba(255,255,255,0.5)', maxWidth: '48rem', margin: '0 auto' }}>
             Real stories from people who found clarity and confidence
