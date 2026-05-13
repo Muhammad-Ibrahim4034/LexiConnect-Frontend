@@ -6,19 +6,19 @@ const steps = [
     icon: MessageCircle,
     step: '1',
     title: 'Describe Your Situation',
-    description: 'Share your legal concern in simple terms — our AI understands plain language.'
+    description: 'Share your legal concern in simple terms our AI understands plain language.'
   },
   {
     icon: Sparkles,
     step: '2',
-    title: 'Get AI-Powered Insights',
+    title: 'Get AI Powered Insights',
     description: 'Receive instant guidance, relevant laws, and tailored recommendations for your case.'
   },
   {
     icon: UserCheck,
     step: '3',
     title: 'Connect with a Lawyer',
-    description: 'When needed, seamlessly book a consultation with a verified legal expert in your area.'
+    description: 'When needed, you can find a verified legal expert in your area.'
   }
 ];
 
