@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Scale, Mail, Lock, AlertCircle } from 'lucide-react';
 import { useAuth } from "../context/AuthContext";
 import { useChat } from '../context/ChatContext';
+import { ForgotPasswordModal } from './ForgotPasswordModal';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { login } = useAuth();
   const { createNewConversation } = useChat();
 
@@ -200,6 +202,7 @@ export function LoginPage() {
             <div className="flex justify-end">
               <button
                 type="button"
+                onClick={() => setShowForgotPassword(true)}
                 className="text-sm transition-colors hover:underline"
                 style={{ color: '#D4AF37', background: 'none', border: 'none', cursor: 'pointer' }}
               >
@@ -275,6 +278,11 @@ export function LoginPage() {
           </Link>
         </div>
       </div>
+
+      {/* Forgot Password Modal — rendered outside the card so it overlays the full screen */}
+      {showForgotPassword && (
+        <ForgotPasswordModal onClose={() => setShowForgotPassword(false)} />
+      )}
     </div>
   );
 }
