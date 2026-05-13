@@ -1,4 +1,4 @@
-import { Briefcase, Home, Heart, Car, Shield, Plane } from 'lucide-react';
+import { Briefcase, Home, Heart, Car, Shield, Pill } from 'lucide-react';
 
 const useCases = [
   {
@@ -27,7 +27,7 @@ const useCases = [
     description: 'Address online fraud, identity theft, and digital privacy violations effectively.'
   },
   {
-    icon: Plane,
+    icon: Pill,
     title: 'Drug Law',
     description: 'Drug laws are legal frameworks that regulate the manufacture, import, export, storage, distribution, and sale of therapeutic goods to ensure quality, safety, and efficacy.'
   }
